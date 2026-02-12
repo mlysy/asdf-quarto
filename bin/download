@@ -19,28 +19,28 @@ uname_m="$(uname -m)"
 platform=""
 
 case "$uname_s" in
-  Darwin)
-    if [ "$uname_m" = "arm64" ]; then
-      echo "* Detected Apple Silicon (arm64), falling back to Intel macOS binary"
-      platform="macos"
-    else
-      platform="macos"
-    fi
-    ;;
-  Linux)
-    case "$uname_m" in
-      x86_64) platform="linux-amd64" ;;
-      aarch64|arm64) platform="linux-arm64" ;;
-      *)
-        echo "Unsupported Linux architecture: $uname_m"
-        exit 1
-        ;;
-    esac
-    ;;
-  *)
-    echo "Unsupported OS: $uname_s"
-    exit 1
-    ;;
+Darwin)
+	if [ "$uname_m" = "arm64" ]; then
+		echo "* Detected Apple Silicon (arm64), falling back to Intel macOS binary"
+		platform="macos"
+	else
+		platform="macos"
+	fi
+	;;
+Linux)
+	case "$uname_m" in
+	x86_64) platform="linux-amd64" ;;
+	aarch64 | arm64) platform="linux-arm64" ;;
+	*)
+		echo "Unsupported Linux architecture: $uname_m"
+		exit 1
+		;;
+	esac
+	;;
+*)
+	echo "Unsupported OS: $uname_s"
+	exit 1
+	;;
 esac
 release_file="$TOOL_NAME-$ASDF_INSTALL_VERSION-${platform}.tar.gz"
 # echo "release_file: $release_file"
