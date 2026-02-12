@@ -10,8 +10,40 @@ source "${plugin_dir}/lib/utils.bash"
 
 mkdir -p "$ASDF_DOWNLOAD_PATH"
 
-# TODO: Adapt this to proper extension and adapt extracting strategy.
-release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION.tar.gz"
+# [x] TODO: Adapt this to proper extension and adapt extracting strategy.
+# Adapted from https://github.com/asdf-community/asdf-uv/blob/main/bin/download
+
+# Detect OS and architecture
+uname_s="$(uname -s)"
+uname_m="$(uname -m)"
+platform=""
+
+case "$uname_s" in
+  Darwin)
+    if [ "$uname_m" = "arm64" ]; then
+      echo "* Detected Apple Silicon (arm64), falling back to Intel macOS binary"
+      platform="macos"
+    else
+      platform="macos"
+    fi
+    ;;
+  Linux)
+    case "$uname_m" in
+      x86_64) platform="linux-amd64" ;;
+      aarch64|arm64) platform="linux-arm64" ;;
+      *)
+        echo "Unsupported Linux architecture: $uname_m"
+        exit 1
+        ;;
+    esac
+    ;;
+  *)
+    echo "Unsupported OS: $uname_s"
+    exit 1
+    ;;
+esac
+release_file="$TOOL_NAME-$ASDF_INSTALL_VERSION-${platform}.tar.gz"
+# echo "release_file: $release_file"
 
 # Download tar.gz file to the download directory
 download_release "$ASDF_INSTALL_VERSION" "$release_file"
