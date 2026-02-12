@@ -15,17 +15,14 @@
 
 # Dependencies
 
-**TODO: adapt this section**
-
 - `bash`, `curl`, `tar`, and [POSIX utilities](https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html).
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
 
 # Install
 
 Plugin:
 
 ```shell
-asdf plugin add quarto
+# asdf plugin add quarto # not supported yet
 # or
 asdf plugin add quarto https://github.com/mlysy/asdf-quarto.git
 ```
@@ -34,13 +31,22 @@ quarto:
 
 ```shell
 # Show all installable versions
-asdf list-all quarto
+# uncomment below for asdf version < 0.16.0
+# (see https://asdf-vm.com/guide/getting-started-legacy.html)
+# asdf list-all quarto
+#
+# asdf version >= 0.16.0
+asdf list all quarto
 
 # Install specific version
 asdf install quarto latest
 
 # Set a version globally (on your ~/.tool-versions file)
-asdf global quarto latest
+# uncomment below for asdf version < 0.16.0: 
+# asdf global quarto latest
+#
+# asdf version >= 0.16.0
+asdf set -u quarto latest
 
 # Now quarto commands are available
 quarto --help
