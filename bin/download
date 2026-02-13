@@ -42,6 +42,13 @@ Linux)
 	exit 1
 	;;
 esac
+
+# Resolve version-latest
+if [ "$ASDF_INSTALL_VERSION" == "latest" ]; then
+	ASDF_INSTALL_VERSION="$("$plugin_dir/bin/latest-stable")"
+	echo "* Resolved latest version to $ASDF_INSTALL_VERSION"
+fi
+
 release_file="$TOOL_NAME-$ASDF_INSTALL_VERSION-${platform}.tar.gz"
 # echo "release_file: $release_file"
 
