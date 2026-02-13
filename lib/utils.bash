@@ -2,10 +2,14 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for quarto.
+# [x] TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for quarto.
 GH_REPO="https://github.com/quarto-dev/quarto-cli"
 TOOL_NAME="quarto"
 TOOL_TEST="quarto --help"
+
+# ADDED: For using bin/latest-stable inside install_version()
+current_script_path=${BASH_SOURCE[0]}
+plugin_dir=$(dirname "$(dirname "$current_script_path")")
 
 fail() {
 	echo -e "asdf-$TOOL_NAME: $*"
@@ -51,10 +55,15 @@ download_release() {
 install_version() {
 	local install_type="$1"
 	local version="$2"
-	# Note: Changed install_path variable
+	# ADDED: Changed install_path variable
 	local install_path="${3%/bin}"
 	# local install_path="${3%/bin}/bin"
 	# echo "install_path: $install_path"
+
+	# ADDED: Explicitly resolve version latest
+	if [ "$version" == "latest" ]; then
+		version="$("$plugin_dir/bin/latest-stable")"
+	fi
 
 	if [ "$install_type" != "version" ]; then
 		fail "asdf-$TOOL_NAME supports release installs only"
