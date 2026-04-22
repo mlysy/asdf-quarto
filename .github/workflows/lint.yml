@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: asdf-vm/actions/install@v4
+      - uses: asdf-vm/actions/install@136a3fbfac44f80c2be433ad5cb13ab3b2fbfeff # v4.0.1
       - run: scripts/lint.bash
 
   actionlint:
